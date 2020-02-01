@@ -41,7 +41,7 @@ function checkProjectInArray(req, res, next) {
 
 const Projects = [
   //{id:1,title:"website x",tasks:["Aprovação Layout","Testes","Publicação"]},
-  {id:2,title:"Loja virtual y",tasks:["Ĩnstalação","Gatway de pagamento"]}
+  //{id:2,title:"Loja virtual y",tasks:["Ĩnstalação","Gatway de pagamento"]}
 ];
 
 server.get('/Projects', (req, res) => {
@@ -53,14 +53,17 @@ server.get('/Projects/:index', checkProjectInArray, (req, res) =>{
 });
 
 server.post('/Projects', checkProjectExists, (req, res) => {
-  var { id } = Projects[Projects.length-1];
-  if (!req.body.id ) {
-    id = 1;
-  }else{
-    id = id+1;
-}
+  //VALIDA ID E ADD+1
+  let mId = 0;
+  for (proj of Projects){
+    let iId = parseInt(proj.id);
+    if (iId > mId){
+      mId = iId;
+    }
+  }
+  mId++
 
-
+  const id = mId;
   const { title } = req.body;
   const { tasks } = req.body;
 
